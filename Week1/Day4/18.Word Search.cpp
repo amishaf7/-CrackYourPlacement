@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int dr[4]={-1,0,+1,0};
+    int dc[4]={0,-1,0 ,+1};
+    
+    bool dfs(int r , int c ,int k  , vector<vector<char>>& board, string word ){
+        if(k==word.size()) return true;
+        int n=board.size();
+        int m=board[0].size();
+        if(r<0 || c<0 || r>=n || c>=m || board[r][c]=='.') return false;
+        if(board[r][c]!=word[k]) return false;
+
+        char temp=board[r][c];
+        board[r][c]='.';
+        
+        for(int i=0 ;i<4 ;i++){
+            int nrow=r+dr[i];
+            int ncol=c+dc[i];
+            if(dfs(nrow,ncol,k+1,board ,word))
+             return true;
+            
+        }
+
+        board[r][c]=temp;
+
+        return false;
+        
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n=board.size();
+        int m=board[0].size();
+        int sz=word.size();
+
+        for(int i=0 ;i<n ; i++){
+            for(int j=0 ;j<m ; j++){
+                if(board[i][j]==word[0]){
+                    if(dfs(i,j,0,board,word)) return true;
+                }
+            }
+        }
+
+        return false;
+    }
+};
